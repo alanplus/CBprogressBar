@@ -10,7 +10,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -33,11 +32,11 @@ public class ImageProgressBar extends View {
         this(context, null);
     }
 
-    public ImageProgressBar(Context context, @Nullable AttributeSet attrs) {
+    public ImageProgressBar(Context context, AttributeSet attrs) {
         this(context, attrs, -1);
     }
 
-    public ImageProgressBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ImageProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ImageProgressBar);
