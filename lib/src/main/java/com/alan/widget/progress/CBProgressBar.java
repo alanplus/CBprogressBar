@@ -1,4 +1,4 @@
-package com.zhl.cbprogressbar.view;
+package com.alan.widget.progress;
 
 
 import android.content.Context;
@@ -12,16 +12,15 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.zhl.cbprogressbar.R;
-
 /**
  * 自定义的progressBar
+ *
  * @author zhl
  */
 public class CBProgressBar extends View {
     private static final int STYLE_HORIZONTAL = 0;
     private static final int STYLE_ROUND = 1;
-    private static final int STYLE_SECTOR=2;
+    private static final int STYLE_SECTOR = 2;
     /**进度背景画笔**/
 //	private Paint mBgpaint;
     /**进度画笔**/
@@ -31,7 +30,7 @@ public class CBProgressBar extends View {
     /**
      * 圆形进度条边框宽度
      **/
-    private int strokeWidth=20;
+    private int strokeWidth = 20;
     /**
      * 进度条中心X坐标
      **/
@@ -59,7 +58,7 @@ public class CBProgressBar extends View {
     /**
      * 扇形扫描进度的颜色
      */
-    private int sectorColor=0xaaffffff;
+    private int sectorColor = 0xaaffffff;
     /**
      * 扇形扫描背景
      */
@@ -87,8 +86,10 @@ public class CBProgressBar extends View {
     /**
      * 水平进度圆角值
      **/
-    private int rectRound=5;
-    /**进度文字是否显示百分号**/
+    private int rectRound = 5;
+    /**
+     * 进度文字是否显示百分号
+     **/
     private boolean showPercentSign;
     private Paint mPaint;
 
@@ -122,7 +123,6 @@ public class CBProgressBar extends View {
     }
 
 
-
     @Override
     protected void onDraw(Canvas canvas) {
         centerX = getWidth() / 2;
@@ -130,9 +130,9 @@ public class CBProgressBar extends View {
         radius = centerX - strokeWidth / 2;
         if (orientation == STYLE_HORIZONTAL) {
             drawHoriRectProgressBar(canvas, mPaint);
-        } else if(orientation == STYLE_ROUND) {
+        } else if (orientation == STYLE_ROUND) {
             drawRoundProgressBar(canvas, mPaint);
-        }else{
+        } else {
             drawSectorProgressBar(canvas, mPaint);
         }
     }
@@ -142,35 +142,35 @@ public class CBProgressBar extends View {
      *
      * @param canvas
      */
-    private void drawRoundProgressBar(Canvas canvas, Paint piant) {
+    private void drawRoundProgressBar(Canvas canvas, Paint paint) {
         // 初始化画笔属性
-        piant.setColor(progressBarBgColor);
-        piant.setStyle(Paint.Style.STROKE);
-        piant.setStrokeWidth(strokeWidth);
+        paint.setColor(progressBarBgColor);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(strokeWidth);
         // 画圆
-        canvas.drawCircle(centerX, centerY, radius, piant);
+        canvas.drawCircle(centerX, centerY, radius, paint);
         // 画圆形进度
-        piant.setColor(progressColor);
-        piant.setStyle(Paint.Style.STROKE);
-        piant.setStrokeWidth(strokeWidth);
+        paint.setColor(progressColor);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(strokeWidth);
         RectF oval = new RectF(centerX - radius, centerY - radius, radius + centerX, radius + centerY);
-        canvas.drawArc(oval, -90, 360 * progress / max, false, piant);
+        canvas.drawArc(oval, -90, 360 * progress / max, false, paint);
         // 画进度文字
-        piant.setStyle(Paint.Style.FILL);
-        piant.setColor(percenttextcolor);
-        piant.setTextSize(percenttextsize);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(percenttextcolor);
+        paint.setTextSize(percenttextsize);
 
         String percent = (int) (progress * 100 / max) + "%";
         Rect rect = new Rect();
-        piant.getTextBounds(percent, 0, percent.length(), rect);
+        paint.getTextBounds(percent, 0, percent.length(), rect);
         float textWidth = rect.width();
         float textHeight = rect.height();
         if (textWidth >= radius * 2) {
             textWidth = radius * 2;
         }
         Paint.FontMetrics metrics = paint.getFontMetrics();
-	float baseline = (getMeasuredHeight()-metrics.bottom+metrics.top)/2-metrics.top;
-	canvas.drawText(percent, centerX - textWidth / 2, baseline, piant);
+        float baseline = (getMeasuredHeight() - metrics.bottom + metrics.top) / 2 - metrics.top;
+        canvas.drawText(percent, centerX - textWidth / 2, baseline, paint);
 
     }
 
@@ -179,69 +179,70 @@ public class CBProgressBar extends View {
      *
      * @param canvas
      */
-    private void drawHoriRectProgressBar(Canvas canvas, Paint piant) {
+    private void drawHoriRectProgressBar(Canvas canvas, Paint paint) {
         // 初始化画笔属性
-        piant.setColor(progressBarBgColor);
+        paint.setColor(progressBarBgColor);
         if (isHorizonStroke) {
-            piant.setStyle(Paint.Style.STROKE);
-            piant.setStrokeWidth(1);
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setStrokeWidth(1);
         } else {
-            piant.setStyle(Paint.Style.FILL);
+            paint.setStyle(Paint.Style.FILL);
         }
         // 画水平矩形
         canvas.drawRoundRect(new RectF(centerX - getWidth() / 2, centerY - getHeight() / 2,
-                centerX + getWidth() / 2, centerY + getHeight() / 2), rectRound, rectRound, piant);
+                centerX + getWidth() / 2, centerY + getHeight() / 2), rectRound, rectRound, paint);
 
         // 画水平进度
-        piant.setStyle(Paint.Style.FILL);
-        piant.setColor(progressColor);
-        if(isHorizonStroke){
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(progressColor);
+        if (isHorizonStroke) {
             canvas.drawRoundRect(new RectF(centerX - getWidth() / 2, centerY - getHeight() / 2,
-                    ((progress * 100 / max) * getWidth()) / 100, centerY + getHeight() / 2), rectRound, rectRound, piant);
-        }else{
-            piant.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+                    ((progress * 100 / max) * getWidth()) / 100, centerY + getHeight() / 2), rectRound, rectRound, paint);
+        } else {
+            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
             canvas.drawRoundRect(new RectF(centerX - getWidth() / 2, centerY - getHeight() / 2,
-                    ((progress * 100 / max) * getWidth()) / 100, centerY + getHeight() / 2),rectRound, rectRound, piant);
-            piant.setXfermode(null);
+                    ((progress * 100 / max) * getWidth()) / 100, centerY + getHeight() / 2), rectRound, rectRound, paint);
+            paint.setXfermode(null);
         }
 
         // 画进度文字
-        piant.setStyle(Paint.Style.FILL);
-        piant.setColor(percenttextcolor);
-        piant.setTextSize(percenttextsize);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(percenttextcolor);
+        paint.setTextSize(percenttextsize);
         String percent = (int) (progress * 100 / max) + "%";
         Rect rect = new Rect();
-        piant.getTextBounds(percent, 0, percent.length(), rect);
+        paint.getTextBounds(percent, 0, percent.length(), rect);
         float textWidth = rect.width();
         float textHeight = rect.height();
         if (textWidth >= getWidth()) {
             textWidth = getWidth();
         }
         Paint.FontMetrics metrics = paint.getFontMetrics();
-	float baseline = (getMeasuredHeight()-metrics.bottom+metrics.top)/2-metrics.top;
-	canvas.drawText(percent, centerX - textWidth / 2, baseline, piant);
+        float baseline = (getMeasuredHeight() - metrics.bottom + metrics.top) / 2 - metrics.top;
+        canvas.drawText(percent, centerX - textWidth / 2, baseline, paint);
 
     }
 
     /**
      * 绘制扇形扫描式进度
+     *
      * @param canvas
-     * @param piant
+     * @param paint
      */
-    private void drawSectorProgressBar(Canvas canvas, Paint piant) {
+    private void drawSectorProgressBar(Canvas canvas, Paint paint) {
         // 初始化画笔属性
-        piant.setColor(sectorColor);
-        piant.setStyle(Paint.Style.STROKE);
-        piant.setStrokeWidth(2);
+        paint.setColor(sectorColor);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(2);
         // 绘外圈
-        canvas.drawCircle(centerX, centerY, radius, piant);
+        canvas.drawCircle(centerX, centerY, radius, paint);
         // 绘内圈
-        piant.setColor(unSweepColor);
-        piant.setStyle(Paint.Style.FILL);
-        canvas.drawCircle(centerX, centerY, radius - 2, piant);
-        piant.setColor(sectorColor);
-        RectF oval = new RectF(centerX - radius+2, centerY - radius+2, radius + centerX-2, radius + centerY-2);
-        canvas.drawArc(oval,-90, 360 * progress / max, true, piant);
+        paint.setColor(unSweepColor);
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawCircle(centerX, centerY, radius - 2, paint);
+        paint.setColor(sectorColor);
+        RectF oval = new RectF(centerX - radius + 2, centerY - radius + 2, radius + centerX - 2, radius + centerY - 2);
+        canvas.drawArc(oval, -90, 360 * progress / max, true, paint);
     }
 
     public void setProgress(int progress) {
@@ -249,7 +250,7 @@ public class CBProgressBar extends View {
             progress = max;
         } else {
             this.progress = progress;
-			postInvalidate();
+            postInvalidate();
         }
     }
 

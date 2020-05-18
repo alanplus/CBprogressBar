@@ -1,4 +1,4 @@
-package com.zhl.cbprogressbar.view;
+package com.alan.widget.progress;
 
 import android.content.Context;
 import android.graphics.Canvas;

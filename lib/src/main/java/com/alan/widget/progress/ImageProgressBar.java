@@ -1,4 +1,4 @@
-package com.zhl.rx.views;
+package com.alan.widget.progress;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -14,8 +14,6 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.zhl.rx.R;
-
 /**
  * 描述：
  * Created by zhaohl on 2018-11-27.
@@ -30,23 +28,24 @@ public class ImageProgressBar extends View {
     private int coverColor = 0x77E6E9E7;
     private int mode = 0;
     private PorterDuff.Mode styleMode = PorterDuff.Mode.DST_IN;
+
     public ImageProgressBar(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public ImageProgressBar(Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs,-1);
+        this(context, attrs, -1);
     }
 
     public ImageProgressBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        TypedArray array = context.obtainStyledAttributes(attrs,R.styleable.ImageProgressBar);
-        bgResID = array.getResourceId(R.styleable.ImageProgressBar_imagebg,-1);
-        roundConer = (int) array.getDimension(R.styleable.ImageProgressBar_roundConer,5);
-        coverColor = array.getColor(R.styleable.ImageProgressBar_coverColor,coverColor);
-        mode = array.getInt(R.styleable.ImageProgressBar_styleMode,coverColor);
-        switch (mode){
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ImageProgressBar);
+        bgResID = array.getResourceId(R.styleable.ImageProgressBar_image_bg, -1);
+        roundConer = (int) array.getDimension(R.styleable.ImageProgressBar_corner, 5);
+        coverColor = array.getColor(R.styleable.ImageProgressBar_cover, coverColor);
+        mode = array.getInt(R.styleable.ImageProgressBar_mode, coverColor);
+        switch (mode) {
             case 0:
                 styleMode = PorterDuff.Mode.DST_IN;
                 break;
@@ -55,19 +54,20 @@ public class ImageProgressBar extends View {
                 break;
         }
         array.recycle();
-        if(bgResID!=-1){
+        if (bgResID != -1) {
             generateImageBg(bgResID);
-        }else{
+        } else {
             throw new RuntimeException("need a image bg!");
         }
-        setLayerType(View.LAYER_TYPE_SOFTWARE,paint);// 关掉硬件加速 否则 paint.setXfermode 无效
+        setLayerType(View.LAYER_TYPE_SOFTWARE, paint);// 关掉硬件加速 否则 paint.setXfermode 无效
     }
 
-    public void setImageBg(Bitmap bgBitmap){
+    public void setImageBg(Bitmap bgBitmap) {
         this.bgBitmap = bgBitmap;
         invalidate();
     }
-    public void setImageBg(int resID){
+
+    public void setImageBg(int resID) {
         this.bgResID = resID;
         generateImageBg(bgResID);
         invalidate();
@@ -75,7 +75,7 @@ public class ImageProgressBar extends View {
 
     private void generateImageBg(int res) {
         BitmapFactory.Options options = new BitmapFactory.Options();
-        bgBitmap = BitmapFactory.decodeResource(getResources(),res,options);
+        bgBitmap = BitmapFactory.decodeResource(getResources(), res, options);
     }
 
     @Override
@@ -87,16 +87,16 @@ public class ImageProgressBar extends View {
     private void drawProgress(Canvas canvas) {
         paint.setColor(coverColor);
         paint.setXfermode(new PorterDuffXfermode(styleMode));
-        canvas.drawRect(new Rect((int) ((progress/max)*getWidth()),0,getWidth(),getHeight()),paint);
+        canvas.drawRect(new Rect((int) ((progress / max) * getWidth()), 0, getWidth(), getHeight()), paint);
         paint.setXfermode(null);
     }
 
     private void drawImageBg(Canvas canvas) {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);// 这里不重新初始化一个画笔刷新后绘出的底图会出问题
-        bgBitmap = Bitmap.createScaledBitmap(bgBitmap,getWidth(),getHeight(),true);
-        canvas.drawRoundRect(new RectF(0,0,getWidth(),getHeight()),roundConer,roundConer,paint);
+        bgBitmap = Bitmap.createScaledBitmap(bgBitmap, getWidth(), getHeight(), true);
+        canvas.drawRoundRect(new RectF(0, 0, getWidth(), getHeight()), roundConer, roundConer, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bgBitmap,0,0,paint);
+        canvas.drawBitmap(bgBitmap, 0, 0, paint);
     }
 
 

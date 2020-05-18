@@ -7,7 +7,7 @@
     android:background="#1f1f1f"
     android:padding="20dp">
 
-    <com.zhl.cbprogressbar.view.CBProgressBar
+    <com.alan.widget.progress.CBProgressBar
         android:id="@+id/my_progress"
         android:layout_width="160dp"
         android:layout_height="160dp"
@@ -17,7 +17,7 @@
         cb:percent_text_size="@dimen/percent_text_size" />
 
 
-    <com.zhl.cbprogressbar.view.CBProgressBar
+    <com.alan.widget.progress.CBProgressBar
         android:id="@+id/my_progress2"
         android:layout_width="match_parent"
         android:layout_height="15dp"
@@ -31,7 +31,7 @@
         cb:progressColor="@color/progress_color_1"
         cb:rect_round="@dimen/horizontal_corner" />
 
-    <com.zhl.cbprogressbar.view.CBProgressBar
+    <com.alan.widget.progress.CBProgressBar
         android:id="@+id/my_progress3"
         android:layout_width="60dp"
         android:layout_height="60dp"
